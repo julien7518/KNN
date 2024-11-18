@@ -61,8 +61,8 @@ def knn(k: int, new: Point, dataset: list[Point], fct_distance: Callable[[Point,
     distances: list[Tuple[float, Point]] = []
     for point in dataset:
         distances.append((fct_distance(point, new), point))
+    distances.sort(key=lambda x: x[0])
     label_occurrences: dict[int, int] = {}
     for i in range(k):
         label_occurrences[distances[i][1].label] = label_occurrences.get(distances[i][1].label, 0) + 1
-
     return new.id, max(label_occurrences, key=label_occurrences.get)
