@@ -17,12 +17,12 @@ class Point(object):
     """
     Represents a point in 7D space.
     """
-    def __init__(self, point_id: int, coordinates: list[float], label: int) -> None:
-        if len(coordinates) != 7: raise DimensionError
-        else:
+    def __init__(self, point_id: int, coordinates: list[float], label: int | None = None) -> None:
+        # if len(coordinates) != 7: raise DimensionError
+        # else:
             self.id: int = point_id
             self.coordinates: list[float] = coordinates
-            self.label: int = label
+            self.label: int | None = label
 
     def __repr__(self) -> str:
         return f'{self.__class__.__name__}({self.id}, {self.coordinates}, {self.label})'
@@ -31,7 +31,7 @@ class Point(object):
         return f'Id : {self.id}, Label : {self.label}'
 
 
-def minkowski(p1: Point, p2: Point, p:float) -> float:
+def minkowski(p1: Point, p2: Point, p:float, length: int | None = None) -> float:
     """
     Calculate the Minkowski distance between two points.
     With ``p`` = 2, it returns the Euclidean distance.
@@ -40,12 +40,28 @@ def minkowski(p1: Point, p2: Point, p:float) -> float:
     :param p1: First point
     :param p2: Second point
     :param p: Parameter of the Minkowski distance
+    :param length: Number of coordinates to take in account, if None all the 7 coordinates are taken.
     :return: The p-Minkowski distance
     """
     result: float = 0.0
-    for i in range(len(p1.coordinates)):
+    for i in range(len(p1.coordinates) if length is None else length):
         result += abs(p1.coordinates[i] - p2.coordinates[i]) ** p
     return result ** (1/p)
+
+
+def tchebychev(p1: Point, p2: Point) -> float:
+    """
+    Calculate the Tchebychev distance between two points.
+
+    :param p1: First point
+    :param p2: Second point
+    :return: The Tchebychev distance
+    """
+    maxi: float = 0.0
+    for i in range(len(p1.coordinates)):
+        if res := abs(p1.coordinates[i] - p2.coordinates[i]):
+            maxi = res
+    return maxi
 
 
 def knn(k: int, new: Point, dataset: list[Point], fct_distance: Callable[[Point, Point], float]) -> Tuple[int, int]:
