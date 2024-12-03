@@ -18,8 +18,8 @@ class Point(object):
     Represents a point in 7D space.
     """
     def __init__(self, point_id: int, coordinates: list[float], label: int | None = None) -> None:
-        # if len(coordinates) != 7: raise DimensionError
-        # else:
+        if len(coordinates) != 7: raise DimensionError
+        else:
             self.id: int = point_id
             self.coordinates: list[float] = coordinates
             self.label: int | None = label

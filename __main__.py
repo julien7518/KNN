@@ -153,7 +153,7 @@ def get_id(path: str) -> int:
     return len([entry for entry in os.listdir(path) if os.path.isfile(os.path.join(path, entry))])
 
 
-def test_knn(normalize_function: Callable[[list[Point]], None] | None = None,extended: bool = False) -> None:
+def test_knn(normalize_function: Callable[[list[Point]], None] | None = None, extended: bool = False) -> None:
     """
     Create a file with details of each running test and a file with the best combo (k, distance) of a test.
 
@@ -168,16 +168,16 @@ def test_knn(normalize_function: Callable[[list[Point]], None] | None = None,ext
     manhattan: partial[float] = partial(knn.minkowski, p=1)
     supposed_optimal_k: int = round(math.sqrt(len(datas)))
     best_combo: Tuple[int, str, float] = (0, "", 0.0)
-    file_id: int = get_id("C:\\Users\\julie\\OneDrive - De Vinci\\A3 - ESILV\\Datascience-IA\\KNN Competition\\result\\extended")
-    for distance in [manhattan, euclidean]:
-        for k in range(1, 5):
+    # file_id: int = get_id("C:\\Users\\julie\\OneDrive - De Vinci\\A3 - ESILV\\Datascience-IA\\KNN Competition\\result\\extended")
+    for distance in [manhattan, euclidean, knn.tchebychev]:
+        for k in [1, 2, 3]:
             start_time: float = time.time()
             score: float = fitness(train_set, test_set, k, distance)
             end_time: float = time.time()
             if score > best_combo[2]:
                 best_combo = (k, str(distance), score)
             if extended:
-                with open(f'result\\extended\\extended_result{file_id}.txt', 'a', newline='') as result_file:
+                with open(f'result\\extended\\extended_result.txt', 'a', newline='') as result_file:
                     result_file.write(f'Test from {datetime.datetime.now()} :\n'
                                       f' - CPU Infos : {platform.processor()}\n'
                                       f' - Running time : {end_time - start_time} seconds\n'
@@ -185,19 +185,14 @@ def test_knn(normalize_function: Callable[[list[Point]], None] | None = None,ext
                                       f' - Test dataset size : {len(test_set)}\n'
                                       f' - k : {k}\n'
                                       f' - Distance : {str(distance)}\n'
+                                      f' - Normalisation : {normalize_function.__name__ if normalize_function is not None else None}\n'
                                       f' - Score : {score}\n\n')
     with open(f'result\\result.txt', 'a', newline='') as result_file:
-        result_file.write(f'k = {best_combo[0]}, p = {best_combo[1][-2]}, score = {best_combo[2]}, normalisation = {normalize_function.__name__}\n')
+        result_file.write(f'k = {best_combo[0]}, p = {best_combo[1][-2]}, score = {best_combo[2]}, normalisation = {normalize_function.__name__ if normalize_function is not None else None}\n')
 
 
 if __name__ == '__main__':
-    for boucle in range(10):
-        test_knn(min_max_scaler)
+    for fct in [min_max_scaler, std_mean_normalization, None]:
+        for boucle in range(3):
+            test_knn(fct, extended=True)
     with open(f'result\\result.txt', 'a') as f: f.write("\n")
-    # data: list[Point] = import_csv("data\\train.csv")
-    # std_mean_normalization(data)
-    # test: list[Point] = import_csv("data\\test.csv", False)
-    # r: list[Tuple[int, int]] = []
-    # for p in test:
-    #     r.append(knn.knn(1, p, data, partial(knn.minkowski, p=1)))
-    # export_result_csv(r, 'result\\result.csv')
