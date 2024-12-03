@@ -40,16 +40,12 @@ class Point(object):
 Deux fonctions principales calculent les distances entre deux points :
 
 1. **Distance de Minkowski** :
-   $$
-   d(p_1, p_2) = \left( \sum_{i=1}^{n} |p_1[i] - p_2[i]|^p \right)^{1/p}
-   $$
+   $$d(p_1, p_2) = \left( \sum_{i=1}^{n} |p_1[i] - p_2[i]|^p \right)^{1/p}$$
    - Si $p = 1$, on obtient la distance Manhattan.
    - Si $p = 2$, on obtient la distance Euclidienne.
 
 2. **Distance de Tchebychev** :
-   $$
-   d(p_1, p_2) = \max_i |p_1[i] - p_2[i]|
-   $$
+   $$d(p_1, p_2) = \max_i |p_1[i] - p_2[i]|$$
 
 ### Algorithme k-NN
 
@@ -99,15 +95,11 @@ def import_csv(name: str,
 ### Normalisation
 
 1. **Min-Max Scaling** :
-   $$
-   x^* = \frac{x - \min(x)}{\max(x) - \min(x)}
-   $$
+   $$x^* = \frac{x - \min(x)}{\max(x) - \min(x)}$$
    Implémenté par `min_max_scaler`.
 
 2. **Standardisation** :
-   $$
-   x^* = \frac{x - \mu}{\sigma}
-   $$
+   $$x^* = \frac{x - \mu}{\sigma}$$
    Où $\mu$ est la moyenne et $\sigma$ est l'écart-type, implémenté par `std_mean_normalization`.
 
 ### Création d'un dataset de test
