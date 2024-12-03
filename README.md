@@ -1,18 +1,6 @@
----
-title: Rapport de code - KNN
-author: Moustafa Adamaly & Julien Fernandes
-geometry: margin=2cm
-toc: true
-toc-title: Table des matières
-numbersections: false
-header-include :
-  - \usepackage{xcolor} 
-  - \usepackage[french]{babel}
-  - \usepackage{stmaryrd}
-  - \usepackage{amsmath}
-  - \usepackage{bbold}
----
 
+# Rapport de code - KNN
+Moustafa Adamaly & Julien Fernandes
 
 ## Introduction
 
